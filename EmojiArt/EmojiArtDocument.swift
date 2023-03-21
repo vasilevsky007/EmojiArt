@@ -57,6 +57,7 @@ class EmojiArtDocument: ObservableObject {
             break
         }
     }
+    
     //MARK: Intents
     
     func setBackground(_ background: EmojiArtModel.Background) {
@@ -66,6 +67,11 @@ class EmojiArtDocument: ObservableObject {
     func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
         emojiArt.addEmoji(emoji, at: location, size: Int(size))
     }
+    
+    func deleteEmoji(_ emoji: EmojiArtModel.Emoji) {
+        emojiArt.deleteEmoji(emoji)
+    }
+    
     func moveEmoji(_ emoji: EmojiArtModel.Emoji, by offset: CGSize) {
         if let index = emojiArt.emojis.index(matching: emoji) {
             emojiArt.emojis[index].x += Int(offset.width)
