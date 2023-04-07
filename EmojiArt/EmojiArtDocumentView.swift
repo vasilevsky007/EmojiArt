@@ -44,7 +44,9 @@ struct EmojiArtDocumentView: View {
                 }
                 .gesture(doubleTapToZoom(in: geometry.size))
                 if document.backgroundImageFetchStatus == .fetching {
-                    ProgressView().scaleEffect(2)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .scaleEffect(5)
                 }
                 ForEach(document.emojis) { emoji in
                     if  selectedEmojis.index(matching: emoji) != nil {
