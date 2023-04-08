@@ -16,7 +16,7 @@ struct EmojiArtModel: Codable {
         var x: Int
         var y: Int
         var size: Int
-        var id: Int
+        let id: Int
         
         fileprivate init(text: String, x: Int, y: Int, size: Int, id: Int) {
             self.text = text
@@ -28,7 +28,7 @@ struct EmojiArtModel: Codable {
     }
     
     func json() throws -> Data {
-        try JSONEncoder().encode(self)
+        return try JSONEncoder().encode(self)
     }
     
     init() { }
@@ -38,7 +38,7 @@ struct EmojiArtModel: Codable {
     }
     
     init(url: URL) throws {
-        let data = try Data (contentsOf: url)
+        let data = try Data(contentsOf: url)
         self = try EmojiArtModel(json: data)
     }
     

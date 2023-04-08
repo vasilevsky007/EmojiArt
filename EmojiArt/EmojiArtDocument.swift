@@ -62,8 +62,6 @@ class EmojiArtDocument: ObservableObject {
             fetchBackgroundImageIfNecessary()
         } else {
             emojiArt = EmojiArtModel()
-            emojiArt.addEmoji("😄", at: (x: -200, y: -100), size: 80)
-            emojiArt.addEmoji("🥵", at: (x: 50, y: 100), size: 40)
         }
     }
     
@@ -73,9 +71,10 @@ class EmojiArtDocument: ObservableObject {
     @Published var backgroundImage: UIImage?
     @Published var backgroundImageFetchStatus = BackgroundImageFetchStatus.idle
     
-    enum BackgroundImageFetchStatus {
+    enum BackgroundImageFetchStatus: Equatable {
         case idle
         case fetching
+        case failed(URL)
     }
     
     private func fetchBackgroundImageIfNecessary() {
@@ -91,9 +90,12 @@ class EmojiArtDocument: ObservableObject {
                         if imageData != nil {
                             self?.backgroundImage = UIImage(data: imageData!)
                         }
+                        
+                        if self?.backgroundImage == nil {
+                            self?.backgroundImageFetchStatus = .failed(url)
+                        }
                     }
                 }
-                
             }
             
         case .imageData(let data):
@@ -107,7 +109,6 @@ class EmojiArtDocument: ObservableObject {
     
     func setBackground(_ background: EmojiArtModel.Background) {
         emojiArt.background = background
-        print("background set to \(background)")
     }
     func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
         emojiArt.addEmoji(emoji, at: location, size: Int(size))
